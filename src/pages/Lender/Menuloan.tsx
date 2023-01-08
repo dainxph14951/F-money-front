@@ -5,10 +5,23 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { ColumnsType } from "antd/lib/table";
 import { listMenuLoan } from "../../features/menuloan";
 import TableMenuLoan from "../../components/Lender/MenuLoan/TableMenuLoan";
+import ReactPaginate from "react-paginate";
 
 const MenuLoan = () => {
   const dispatch = useAppDispatch();
   const menuLoan = useAppSelector((state) => state.menuLoan.values);
+
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const usersPerPage = 10;
+
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const pageCount = Math.ceil(menuLoan.length / usersPerPage);
+
+  const changePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
 
   useEffect(() => {
     dispatch(listMenuLoan());
@@ -57,13 +70,26 @@ const MenuLoan = () => {
               {/* Table body */}
               <tbody className="text-sm font-medium divide-y divide-slate-100">
                 {/* Row */}
-                {menuLoan?.map((item: any, index: number) => {
-                  return <TableMenuLoan item={item} index={index} />;
-                })}
+                {menuLoan
+                  ?.slice(pagesVisited, pagesVisited + usersPerPage)
+                  .map((item: any, index: number) => {
+                    return <TableMenuLoan item={item} index={index} />;
+                  })}
               </tbody>
             </table>
           </div>
         </div>
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
       </div>
     </div>
   );

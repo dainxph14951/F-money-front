@@ -55,6 +55,9 @@ function SearchInstallment() {
             />
           </div>
           <div className="mb-3 xl:w-96">
+            <Input placeholder="Mã hóa đơn" prefix={<SearchOutlined />} />
+          </div>
+          <div className="mb-3 xl:w-96">
             <RangePicker
               onChange={(e) => {
                 handlerDate(e);

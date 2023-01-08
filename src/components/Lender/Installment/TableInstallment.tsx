@@ -19,6 +19,8 @@ import {
 } from "../../../features/contract/contractSlice";
 import FomatNumber from "../../FomatNumber/fomatNumber";
 import ModalInstallmentDetail from "./ModalInstallmentDetail";
+import { listMortgage } from "../../../features/mortgage/mortgage";
+import ReactPaginate from "react-paginate";
 
 function TableInstallment() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,8 +28,27 @@ function TableInstallment() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const check = useAppSelector((state) => state.contract.check);
+  
   const [contractDetaill, setcontractDetaill] = useState<any>();
+
   const contracts = useAppSelector((state) => state.contract.value);
+
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const usersPerPage = 10;
+
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const pageCount = Math.ceil(contracts.length / usersPerPage);
+
+  const changePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
+
+  useEffect(() => {
+    dispatch(listMortgage());
+  }, []);
+
   const showModal = (record: any) => {
     setIsModalOpen(true);
   };
@@ -183,105 +204,107 @@ function TableInstallment() {
             {/* Table body */}
             <tbody className="text-sm font-medium divide-y divide-slate-100">
               {/* Row */}
-              {contracts?.map((item: any, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="pr-2">
-                      <input
-                        type="checkbox"
-                        value={item._id}
-                        onChange={(e) => HandlerOngetMany(e)}
-                      />
-                    </td>
-                    <td className="p-2">
-                      <div className="flex items-center">
-                        <div className="text-slate-800">{index + 1}</div>
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center">{item.ma_hd}</div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-black">
-                        {item.ten_khach_hang}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center">
-                        <FomatNumber number={item.khoan_vay} />
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        {item.lai_xuat} %
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        {item.han_vay}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        {item.han_tra}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        <FomatNumber
-                          number={
-                            (item.khoan_vay / item.han_vay) * item.han_tra
-                          }
-                        />
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        <FomatNumber number={item.da_thanh_toan} />
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-gray-600">
-                        <FomatNumber
-                          number={item.tong_hd - item.da_thanh_toan}
-                        />
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-orange-700">
-                        {handeleStatus(item.status)}
-                      </div>
-                    </td>
-                    <td className="flex pt-5">
-                      <div
-                        className="items-center text-gray-500 pl-5 relative group"
-                        onClick={() => handleClickModal(item._id)}
-                      >
-                        <button
-                          className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block"
+              {contracts
+                ?.slice(pagesVisited, pagesVisited + usersPerPage)
+                .map((item: any, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="pr-2">
+                        <input
+                          type="checkbox"
+                          value={item._id}
                           onChange={(e) => HandlerOngetMany(e)}
+                        />
+                      </td>
+                      <td className="p-2">
+                        <div className="flex items-center">
+                          <div className="text-slate-800">{index + 1}</div>
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center">{item.ma_hd}</div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-black">
+                          {item.ten_khach_hang}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center">
+                          <FomatNumber number={item.khoan_vay} />
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          {item.lai_xuat} %
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          {item.han_vay}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          {item.han_tra}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          <FomatNumber
+                            number={
+                              (item.khoan_vay / item.han_vay) * item.han_tra
+                            }
+                          />
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          <FomatNumber number={item.da_thanh_toan} />
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-gray-600">
+                          <FomatNumber
+                            number={item.tong_hd - item.da_thanh_toan}
+                          />
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-orange-700">
+                          {handeleStatus(item.status)}
+                        </div>
+                      </td>
+                      <td className="flex pt-5">
+                        <div
+                          className="items-center text-gray-500 pl-5 relative group"
+                          onClick={() => handleClickModal(item._id)}
                         >
-                          Đóng tiền
-                        </button>
-                        <div className="pr-2">
-                          <div>
-                            <FcSalesPerformance />
+                          <button
+                            className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block"
+                            onChange={(e) => HandlerOngetMany(e)}
+                          >
+                            Đóng tiền
+                          </button>
+                          <div className="pr-2">
+                            <div>
+                              <FcSalesPerformance />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        onClick={() => removeItem(item._id)}
-                        className="items-center text-gray-500 pl-5 relative group mr-3"
-                      >
-                        <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
-                          Đóng HĐ
-                        </button>
-                        <GiAnchor />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                        <div
+                          onClick={() => removeItem(item._id)}
+                          className="items-center text-gray-500 pl-5 relative group mr-3"
+                        >
+                          <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
+                            Đóng HĐ
+                          </button>
+                          <GiAnchor />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -292,6 +315,17 @@ function TableInstallment() {
           </Modal>
         </div>
       </div>
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={changePage}
+        containerClassName={"paginationBttns"}
+        previousLinkClassName={"previousBttn"}
+        nextLinkClassName={"nextBttn"}
+        disabledClassName={"paginationDisabled"}
+        activeClassName={"paginationActive"}
+      />
     </div>
   );
 }

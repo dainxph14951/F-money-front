@@ -15,7 +15,6 @@ const Header_Client = () => {
     setActive(!isACtive);
   };
   const { inforUser, isLogin } = useAppSelector((state) => state.auth);
-
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
@@ -28,7 +27,7 @@ const Header_Client = () => {
         {
           key: "1",
           label: (
-            <Link to={`/accountClient/${inforUser?.user?._id}`}>
+            <Link to={`/accountClient/${inforUser?.details?._id}`}>
               Thông tin của tôi
             </Link>
           ),
@@ -36,7 +35,9 @@ const Header_Client = () => {
         {
           key: "2",
           label: (
-            <Link to={`/password/${inforUser?.user?._id}`}>Đổi mật khẩu</Link>
+            <Link to={`/password/${inforUser?.details?._id}`}>
+              Đổi mật khẩu
+            </Link>
           ),
         },
         {
@@ -122,7 +123,7 @@ const Header_Client = () => {
                 <p>
                   <Space className="">
                     <Button shape="round" className="">
-                      {inforUser?.user?.name}
+                      {inforUser?.details?.name}
                       <FcLock />
                     </Button>
                   </Space>

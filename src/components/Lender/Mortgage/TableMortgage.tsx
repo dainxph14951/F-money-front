@@ -6,6 +6,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { GiAnchor } from "react-icons/gi";
 import { getDetailMortgage } from "../../../api/mortgage";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import ReactPaginate from "react-paginate";
 import {
   addMuiltipleValues,
   deleteMany,
@@ -32,6 +33,19 @@ function TableMortgage() {
     setIsModalOpen(false);
   };
   const mortgage = useAppSelector((state) => state.mortgage.value);
+
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const usersPerPage = 10;
+
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const pageCount = Math.ceil(mortgage.length / usersPerPage);
+
+  const changePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
+
   useEffect(() => {
     dispatch(listMortgage());
   }, []);
@@ -92,7 +106,7 @@ function TableMortgage() {
       alert("please Select at least one check box !");
     }
   };
-  const style = { color: "#dc2626", fontSize: "1.5em" }
+  const style = { color: "#dc2626", fontSize: "1.5em" };
 
   return (
     <div className="col-span-full  bg-white shadow-lg  rounded-sm border border-slate-200">
@@ -111,7 +125,7 @@ function TableMortgage() {
                     className="btn btn-danger"
                     onClick={HandlerOnRemoveMany}
                   >
-                    <AiFillDelete style={style}/>
+                    <AiFillDelete style={style} />
                   </button>
                 </th>
                 <th className="p-2">
@@ -150,81 +164,83 @@ function TableMortgage() {
             {/* Table body */}
             <tbody className="text-sm font-medium divide-y divide-slate-100">
               {/* Row */}
-              {mortgage?.map((item: any, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="pr-2">
-                      <input
-                        type="checkbox"
-                        value={item._id}
-                        onChange={(e) => HandlerOngetMany(e)}
-                      />
-                    </td>
-                    <td className="p-2">
-                      <div className="flex items-center">
-                        <div className="text-slate-800">{index + 1}</div>
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center">{item.ma_hd}</div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-green-500">
-                        {item.ten_khach_hang}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center">
-                        <FomatNumber number={item.khoan_vay} />
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-sky-500">
-                        {item.thong_tin}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-sky-500">
-                        {item.han_vay}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-sky-500">
-                        {formatDate(item.createdAt)}
-                      </div>
-                    </td>
-                    <td className="p-2">
-                      <div className="text-center text-sky-500">
-                        {handeleStatus(item.status)}
-                      </div>
-                    </td>
-                    <td className="flex pt-5">
-                      <div
-                        className="items-center text-gray-500 pl-5 relative group"
-                        onClick={() => handleClickModal(item._id)}
-                      >
-                        <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
-                          Đóng tiền
-                        </button>
-                        <div className="pr-2">
-                          <div>
-                            <FcSalesPerformance />
+              {mortgage
+                ?.slice(pagesVisited, pagesVisited + usersPerPage)
+                .map((item: any, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="pr-2">
+                        <input
+                          type="checkbox"
+                          value={item._id}
+                          onChange={(e) => HandlerOngetMany(e)}
+                        />
+                      </td>
+                      <td className="p-2">
+                        <div className="flex items-center">
+                          <div className="text-slate-800">{index + 1}</div>
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center">{item.ma_hd}</div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-green-500">
+                          {item.ten_khach_hang}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center">
+                          <FomatNumber number={item.khoan_vay} />
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-sky-500">
+                          {item.thong_tin}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-sky-500">
+                          {item.han_vay}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-sky-500">
+                          {formatDate(item.createdAt)}
+                        </div>
+                      </td>
+                      <td className="p-2">
+                        <div className="text-center text-sky-500">
+                          {handeleStatus(item.status)}
+                        </div>
+                      </td>
+                      <td className="flex pt-5">
+                        <div
+                          className="items-center text-gray-500 pl-5 relative group"
+                          onClick={() => handleClickModal(item._id)}
+                        >
+                          <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
+                            Đóng tiền
+                          </button>
+                          <div className="pr-2">
+                            <div>
+                              <FcSalesPerformance />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        onClick={() => removeItem(item._id)}
-                        className="items-center text-gray-500 pl-5 relative group mr-3"
-                      >
-                        <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
-                          Đóng HĐ
-                        </button>
-                        <GiAnchor />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                        <div
+                          onClick={() => removeItem(item._id)}
+                          className="items-center text-gray-500 pl-5 relative group mr-3"
+                        >
+                          <button className="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">
+                            Đóng HĐ
+                          </button>
+                          <GiAnchor />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -232,6 +248,17 @@ function TableMortgage() {
           </Modal>
         </div>
       </div>
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={changePage}
+        containerClassName={"paginationBttns"}
+        previousLinkClassName={"previousBttn"}
+        nextLinkClassName={"nextBttn"}
+        disabledClassName={"paginationDisabled"}
+        activeClassName={"paginationActive"}
+      />
     </div>
   );
 }
