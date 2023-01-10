@@ -17,7 +17,7 @@ import ContractPage from "./../pages/ContractPage/index";
 import Historic_ContractPage from "../pages/Historic_ContractPage";
 import CustomerCheck from "../pages/Lender/CustomerCheck";
 import Expense from "../pages/Lender/Expense";
-import Income from "../pages/Lender/Income";
+import Income from "../pages/Signup/Income";
 import Service from "../pages/Lender/Service";
 import Installment from "../pages/Lender/Installment";
 import Mortgage from "../pages/Lender/Mortgage";
@@ -36,7 +36,9 @@ import Test from "../models/Test";
 import AdminSupport from "../pages/AdminSupport/AdminSupport";
 import MenuLoan from "../pages/Lender/Menuloan";
 import Rules from "../pages/Rules";
+// api service
 import CustomConta from "../pages/Lender/CustomConta";
+import ListBlock from "../components/Admin/Blog";
 
 const RoutePage = () => {
   return (
@@ -115,6 +117,8 @@ const RoutePage = () => {
           <Route path="service" element={<ServiceList />} />{" "}
           {/**Danh sách dich vu */}
           <Route path="support" element={<AdminSupport />} />{" "}
+          {/**Hỗ trợ khách hàng */}
+          <Route path="blog" element={<ListBlock />} />{" "}
           {/**Hỗ trợ khách hàng */}
         </Route>
       </Routes>
