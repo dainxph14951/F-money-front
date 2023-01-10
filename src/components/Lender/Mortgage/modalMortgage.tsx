@@ -59,15 +59,8 @@ const modalMortgage = ({
   const navigate = useNavigate();
   const [form] = Form.useForm<any>();
 
-  const idUserMortgage = () => {
-    const inforUser = useAppSelector(state => state.auth.inforUser)
-    const id = inforUser.id;
-    return id;
-  };
-
   const onFinish = (data: any) => {
     if (data) {
-      data.nguoi_tao_hd = idUserMortgage();
       dispatch(addMortgage(data));
       setIsModalOpen(false);
 

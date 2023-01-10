@@ -61,15 +61,9 @@ const ModalInstallmentAdd = ({
   const dispatch = useAppDispatch();
   const [form] = Form.useForm<any>();
 
-  const idUserContracrt = () => {
-    const inforUser = useAppSelector(state => state.auth.inforUser)
-    const id = inforUser.id;
-    return id;
-  };
 
   const onFinish = (data: any) => {
     if (data) {
-      data.nguoi_tao_hd = idUserContracrt();
       dispatch(addContract(data));
       setIsModalOpen(false);
       Swal.fire({
