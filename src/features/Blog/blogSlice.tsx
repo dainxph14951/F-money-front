@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { listBlog } from "../../api/Blog";
+import { createBlog, listBlog } from "../../api/Blog";
 
 interface Icontract {
   value: any[];
@@ -16,7 +16,13 @@ export const getAllListBlogs = createAsyncThunk(
     // return data;
   }
 );
-
+export const addBlog = createAsyncThunk(
+  "blog/addBlog",
+  async (blog : any) => {
+    const { data } = await createBlog(blog);
+    return data;
+  }
+);
 const blogSlice = createSlice({
   name: "blog",
   initialState: {
@@ -30,6 +36,9 @@ const blogSlice = createSlice({
     builder.addCase(getAllListBlogs.fulfilled, (state, action) => {
       console.log(22222222);
       // state.values = action.payload;
+    });
+    builder.addCase(addBlog.fulfilled, (state, action) => {
+      state.value.push(action.payload);
     });
   },
 });
