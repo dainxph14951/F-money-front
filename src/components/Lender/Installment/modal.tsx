@@ -62,7 +62,7 @@ const ModalInstallmentAdd = ({
   const [form] = Form.useForm<any>();
 
   const idUserContracrt = () => {
-    const inforUser = useAppSelector(state => state.auth.inforUser)
+    const inforUser = useAppSelector((state) => state.auth.inforUser);
     const id = inforUser.id;
     return id;
   };

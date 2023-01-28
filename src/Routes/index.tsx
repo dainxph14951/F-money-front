@@ -46,25 +46,25 @@ const RoutePage = () => {
     <div>
       <Routes>
         <Route path="/" element={<Website_Layout />}>
-        <Route path="test" element={<Test />} />{" "}
+          <Route path="test" element={<Test />} />{" "}
           <Route index element={<HomePage />} /> {/**Trang chủ */}
           <Route path="accountClient/:id" element={<AccountClient />} />{" "}
           {/**Thông tin tài khoản */}
           <Route path="password/:id" element={<Passwword />} />{" "}
           {/**Đổi mật khẩu */}
-
           <Route path="suport" element={<SuportPage />} /> {/**Hỗ trợ */}
           <Route path="contractPage" element={<ContractPage />} />{" "}
           <Route path="rule" element={<Rules />} /> {/**Yêu cầu hợp đồng */}
           {/**Tin tức */}
-          <Route path="news" element={<NewsPage />} /> 
+          <Route path="news" element={<NewsPage />} />
           <Route
             path="historic_Contract"
             element={<Historic_ContractPage />}
           />{" "}
           {/**Lịch sử hợp đồng */}
         </Route>
-        <Route path="/lender"
+        <Route
+          path="/lender"
           element={
             <PrivateRouterLender>
               <LayoutDashboard />
@@ -95,11 +95,15 @@ const RoutePage = () => {
           {/**Yêu cầu vay tiền*/}
           <Route path="customerContact" element={<CustomConta />} />{" "}
           {/**Yêu cầu vay tiền*/}
+          <Route path="thong-ke" element={<Dashboard />} />{" "}
         </Route>
         <Route path="/signin" element={<SiginPage />}></Route> {/**Đăng nhập */}
-        <Route path="/register" element={<SignupPage />}>{" "}</Route>{" "}
+        <Route path="/register" element={<SignupPage />}>
+          {" "}
+        </Route>{" "}
         {/**Đăng ký */}
-        <Route path="/admin"
+        <Route
+          path="/admin"
           element={
             <PrivateRouterAdmin>
               <LayoutDashboard />
@@ -122,9 +126,7 @@ const RoutePage = () => {
           {/**Hỗ trợ khách hàng */}
           <Route path="blog" element={<ListBlogs />} />{" "}
           {/**Hỗ trợ khách hàng */}
-        
         </Route>
-        
       </Routes>
     </div>
   );
