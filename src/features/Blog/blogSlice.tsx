@@ -11,18 +11,25 @@ const initialState: Icontract = {
 export const getAllListBlogs = createAsyncThunk(
   "blog/getAllListBlogs",
   async () => {
-    const { data } = await listBlog();
-    return data;
+    // const { data } = await listBlog();
+    console.log(1111111);
+    // return data;
   }
 );
 
 const blogSlice = createSlice({
   name: "blog",
-  initialState,
+  initialState: {
+    values: [],
+    loading: false,
+    message: "",
+    check: [],
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllListBlogs.fulfilled, (state, action) => {
-      state.value = action.payload;
+      console.log(22222222);
+      // state.values = action.payload;
     });
   },
 });

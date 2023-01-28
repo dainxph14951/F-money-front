@@ -9,13 +9,15 @@ import TableBlogs from "./TableBlogs";
 type Props = {};
 
 const ListBlogs = (props: Props) => {
-  const blogs = useAppSelector((state) => state.blog.value);
+  // const blogs = useAppSelector((state) => state.blog.value);
+  const blogs = useAppSelector((state) => state.blog.values);
+
+  console.log("blogs", blogs);
 
   useEffect(() => {
     getAllListBlogs();
   }, []);
 
-  console.log({ blogs });
   return (
     <div>
       <BreadcrumbComponent />

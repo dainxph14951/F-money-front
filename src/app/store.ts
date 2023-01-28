@@ -16,7 +16,7 @@ import bankReducer from "../features/bank/bankSlice";
 import mortgageReducer from "../features/mortgage/mortgage";
 import adminSpReducer from "../features/adminSp/adminSpSlice";
 import menuloan from "../features/menuloan";
-import blogSliceReducer from "../features/Blog/blogSlice";
+import blogReducer from "../features/Blog/blogSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   mortgage: mortgageReducer,
   adminSp: adminSpReducer,
   menuLoan: menuloan,
-  blog: blogSliceReducer,
+  blog: blogReducer,
 });
 const persistConfig = {
   key: "root",
